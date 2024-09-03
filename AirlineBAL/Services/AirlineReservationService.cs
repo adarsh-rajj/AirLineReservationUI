@@ -4,6 +4,7 @@ using AirlineDAL.Entities;
 using AirlineDAL.Repository;
 using AirLineShared.Enum;
 using Microsoft.EntityFrameworkCore;
+using static AirlineDAL.Repository.AirlineReservationRepository;
 using static AirLineShared.Enum.AirlineEnums;
 
 namespace AirlineBAL.Services
@@ -137,23 +138,28 @@ namespace AirlineBAL.Services
 
         public async Task EditFlightNumberServices(string pnrNumer, string flightNumber)
         {
-            await _airlineRepository.EditFlightNumberRepositoryAsync(pnrNumer, flightNumber);
+            //await _airlineRepository.EditFlightNumberRepositoryAsync(pnrNumer, flightNumber);
+            await _airlineRepository.UpdateCustomerDetailsAsync(pnrNumer, UpdateField.FlightNumber,flightNumber);
         }
         public async Task EditSourceServices(string pnrNumer, string source)
         {
-            await _airlineRepository.EditSourceRepositoryAsync(pnrNumer, source);
+            //await _airlineRepository.EditSourceRepositoryAsync(pnrNumer, source);
+            await _airlineRepository.UpdateCustomerDetailsAsync(pnrNumer, UpdateField.Source, source);
         }
         public async Task EditDestinationServices(string pnrNumer, string destination)
         {
-            await _airlineRepository.EditDestinationRepositoryAsync(pnrNumer, destination);
+            //await _airlineRepository.EditDestinationRepositoryAsync(pnrNumer, destination);
+            await _airlineRepository.UpdateCustomerDetailsAsync(pnrNumer, UpdateField.Destination, destination);
         }
         public async Task EditEmailServices(string pnrNumer, string email)
         {
-            await _airlineRepository.EditEmailRepositoryAsync(pnrNumer, email);
+            //await _airlineRepository.EditEmailRepositoryAsync(pnrNumer, email);
+            await _airlineRepository.UpdateCustomerDetailsAsync(pnrNumer, UpdateField.Email, email);
         }
         public async Task EditContactServices(string pnrNumer, long contact)
         {
-            await _airlineRepository.EditContactRepositoryAsync(pnrNumer, contact);
+            //await _airlineRepository.EditContactRepositoryAsync(pnrNumer, contact);
+            await _airlineRepository.UpdateCustomerDetailsAsync(pnrNumer, UpdateField.Contact, contact);
         }
         #endregion
 

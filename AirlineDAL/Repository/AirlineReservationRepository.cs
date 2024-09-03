@@ -38,51 +38,97 @@ namespace AirlineDAL.Repository
         #endregion
 
         #region 2. Update
-        public async Task EditFlightNumberRepositoryAsync(string pnrNumber, string flightNumber)
+
+        public enum UpdateField
         {
-            var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
+            FlightNumber,
+            Source,
+            Destination,
+            Email,
+            Contact
+        }
+
+        public async Task UpdateCustomerDetailsAsync(string pnrNumber, UpdateField field, object value)
+        {
+            var customerDetails = await _airlineContext.AirlineReservation
+                .Where(x => x.PNRNumber == pnrNumber)
+                .FirstOrDefaultAsync();
+
             if (customerDetails != null)
             {
-                customerDetails.FlightNo = flightNumber;
+                switch (field)
+                {
+                    case UpdateField.FlightNumber:
+                        customerDetails.FlightNo = value as string;
+                        break;
+                    case UpdateField.Source:
+                        customerDetails.Source = value as string;
+                        break;
+                    case UpdateField.Destination:
+                        customerDetails.Destination = value as string;
+                        break;
+                    case UpdateField.Email:
+                        customerDetails.Email = value as string;
+                        break;
+                    case UpdateField.Contact:
+                        if (value is long contactNumber)
+                        {
+                            customerDetails.ContactNo = contactNumber;
+                        }
+                        break;
+                    default:
+                        throw new ArgumentException("Invalid field specified", nameof(field));
+                }
+
+                await _airlineContext.SaveChangesAsync();
             }
-            await _airlineContext.SaveChangesAsync();
         }
-        public async Task EditSourceRepositoryAsync(string pnrNumber, string source)
-        {
-            var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
-            if (customerDetails != null)
-            {
-                customerDetails.Source = source;
-            }
-            await _airlineContext.SaveChangesAsync();
-        }
-        public async Task EditDestinationRepositoryAsync(string pnrNumber, string destination)
-        {
-            var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
-            if (customerDetails != null)
-            {
-                customerDetails.Destination = destination;
-            }
-            await _airlineContext.SaveChangesAsync();
-        }
-        public async Task EditEmailRepositoryAsync(string pnrNumber, string email)
-        {
-            var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
-            if (customerDetails != null)
-            {
-                customerDetails.Email = email;
-            }
-            await _airlineContext.SaveChangesAsync();
-        }
-        public async Task EditContactRepositoryAsync(string pnrNumber, long contact)
-        {
-            var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
-            if (customerDetails != null)
-            {
-                customerDetails.ContactNo = contact;
-            }
-            await _airlineContext.SaveChangesAsync();
-        }
+
+        //public async Task EditFlightNumberRepositoryAsync(string pnrNumber, string flightNumber)
+        //{
+        //    var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
+        //    if (customerDetails != null)
+        //    {
+        //        customerDetails.FlightNo = flightNumber;
+        //    }
+        //    await _airlineContext.SaveChangesAsync();
+        //}
+        //public async Task EditSourceRepositoryAsync(string pnrNumber, string source)
+        //{
+        //    var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
+        //    if (customerDetails != null)
+        //    {
+        //        customerDetails.Source = source;
+        //    }
+        //    await _airlineContext.SaveChangesAsync();
+        //}
+        //public async Task EditDestinationRepositoryAsync(string pnrNumber, string destination)
+        //{
+        //    var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
+        //    if (customerDetails != null)
+        //    {
+        //        customerDetails.Destination = destination;
+        //    }
+        //    await _airlineContext.SaveChangesAsync();
+        //}
+        //public async Task EditEmailRepositoryAsync(string pnrNumber, string email)
+        //{
+        //    var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
+        //    if (customerDetails != null)
+        //    {
+        //        customerDetails.Email = email;
+        //    }
+        //    await _airlineContext.SaveChangesAsync();
+        //}
+        //public async Task EditContactRepositoryAsync(string pnrNumber, long contact)
+        //{
+        //    var customerDetails = await _airlineContext.AirlineReservation.Where(x => x.PNRNumber == pnrNumber).FirstOrDefaultAsync();
+        //    if (customerDetails != null)
+        //    {
+        //        customerDetails.ContactNo = contact;
+        //    }
+        //    await _airlineContext.SaveChangesAsync();
+        //}
 
         #endregion
 

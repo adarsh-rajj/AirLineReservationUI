@@ -11,7 +11,7 @@ namespace AirlineDAL.Context
         public string ConnectionString { get; }
         public AirlineDbContext()
         {
-            ConnectionString = "Server=DELL; Database=Adarsh; User Id=Adarsh; Password=Adarsh; Trusted_Connection=True; TrustServerCertificate=True; Integrated Security=False;";
+            ConnectionString = "Server=MSI\\SQLEXPRESS; Database=AirLineReservation; Trusted_Connection=True; TrustServerCertificate=True; Integrated Security=true;";
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
